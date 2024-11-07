@@ -1,4 +1,4 @@
-## Gerador de Tags
+# Gerador de Tags
 
 Objetivo: Gerar uma ou mais tags que representem o conteúdo do texto fornecido, buscando manter o número de tags o mais reduzido possível.
 
