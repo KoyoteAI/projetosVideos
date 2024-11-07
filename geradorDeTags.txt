@@ -1,0 +1,20 @@
+## Gerador de Tags
+
+Objetivo: Gerar uma ou mais tags que representem o conteúdo do texto fornecido, buscando manter o número de tags o mais reduzido possível.
+
+Instruções:
+
+Leia o texto completo com atenção e identifique as principais ideias ou temas abordados. As tags devem captar o conteúdo de forma abrangente, representando os conceitos centrais.
+Minimize o número de tags: Concentre-se em gerar apenas as tags essenciais, evitando detalhamentos excessivos. Foque nos conceitos mais amplos e significativos.
+Formato das tags: Cada tag deve ser curta, preferencialmente composta por uma ou duas palavras, e precisa refletir a essência dos temas abordados. Utilize no máximo três palavras, se necessário.
+Exemplo de tags para temas filosóficos (somente como referência):
+Se o texto explorar questões sobre a natureza da realidade e da percepção, as tags poderiam ser "Metafísica" ou "Epistemologia".
+Se o conteúdo abordar a ética e o comportamento humano, as tags poderiam ser "Ética" ou "Moralidade".
+Importante: Gere o mínimo necessário de tags que capturem o sentido principal e geral do texto, mantendo-as precisas e diretas.
+
+
+
+
+ 
+
+
