@@ -1,0 +1,565 @@
+{
+  "name": "Clone Platão",
+  "nodes": [
+    {
+      "parameters": {
+        "jsonMode": "expressionData",
+        "jsonData": "={{ $json.text }}",
+        "options": {
+          "metadata": {
+            "metadataValues": [
+              {
+                "name": "tags",
+                "value": "={{ $json.tags }} "
+              }
+            ]
+          }
+        }
+      },
+      "id": "ddcc949e-2137-40b7-9f9c-555abde2b88f",
+      "name": "Default Data Loader",
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1,
+      "position": [
+        720,
+        440
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "tableName": {
+          "__rl": true,
+          "value": "embeddings_teste",
+          "mode": "list",
+          "cachedResultName": "embeddings_teste"
+        },
+        "options": {
+          "queryName": "match_documents"
+        }
+      },
+      "id": "b8dfeb1e-a5fd-4708-af30-2e21ca085ef8",
+      "name": "Supabase Vector Store1",
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1,
+      "position": [
+        580,
+        240
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "HB7B9OKjSsEKH8Ga",
+          "name": "API Teste"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "thenlper/gte-large",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsHuggingFaceInference",
+      "typeVersion": 1,
+      "position": [
+        660,
+        500
+      ],
+      "id": "2a9db91e-8a97-4009-a640-ead1efcdf671",
+      "name": "Embeddings HuggingFace Inference",
+      "credentials": {
+        "huggingFaceApi": {
+          "id": "3dsrmC9ndr0gdbGd",
+          "name": "HuggingFaceApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "96af65b2-2e01-40ae-adf1-7487560783ec",
+              "name": "tags",
+              "value": "={{ $json.output }}",
+              "type": "string"
+            },
+            {
+              "id": "d61abf5c-8497-423a-95ca-b0c8dcc0f523",
+              "name": "text",
+              "value": "={{ $('Loop Over Items').last().json.chunk }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        400,
+        240
+      ],
+      "id": "50ffa90b-d323-4871-abbd-f935aff9a12b",
+      "name": "POST Vector Store"
+    },
+    {
+      "parameters": {
+        "chunkSize": 700,
+        "chunkOverlap": 100
+      },
+      "type": "@n8n/n8n-nodes-langchain.textSplitterTokenSplitter",
+      "typeVersion": 1,
+      "position": [
+        820,
+        560
+      ],
+      "id": "f283100c-86f5-4fb3-98d4-43eec8676793",
+      "name": "Token Splitter"
+    },
+    {
+      "parameters": {
+        "model": "llama-3.2-90b-text-preview",
+        "options": {
+          "temperature": 0.4
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        -100,
+        -160
+      ],
+      "id": "9ae467cc-2c2c-42ec-9fa9-3c9306135242",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "wujIl27yzdv1Sk3E",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "conteudo_de_consulta",
+        "description": "={{ $json.chatInput }}",
+        "topK": 77
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolVectorStore",
+      "typeVersion": 1,
+      "position": [
+        40,
+        -120
+      ],
+      "id": "4743079a-dcda-4e9b-b8e2-a179f3578f3e",
+      "name": "Vector Store Tool"
+    },
+    {
+      "parameters": {
+        "modelName": "thenlper/gte-large",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsHuggingFaceInference",
+      "typeVersion": 1,
+      "position": [
+        380,
+        0
+      ],
+      "id": "6cfe860f-7257-453e-854a-38e5c066931f",
+      "name": "Embeddings HuggingFace Inference1",
+      "credentials": {
+        "huggingFaceApi": {
+          "id": "3dsrmC9ndr0gdbGd",
+          "name": "HuggingFaceApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "tableName": {
+          "__rl": true,
+          "value": "embeddings_teste",
+          "mode": "list",
+          "cachedResultName": "embeddings_teste"
+        },
+        "options": {
+          "queryName": "match_documents"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1,
+      "position": [
+        320,
+        -120
+      ],
+      "id": "197cf0cd-fd16-4aac-af16-bb7a2b51bd2a",
+      "name": "Supabase Vector Store",
+      "credentials": {
+        "supabaseApi": {
+          "id": "HB7B9OKjSsEKH8Ga",
+          "name": "API Teste"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "batchSize": "=1",
+        "options": {
+          "reset": false
+        }
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -140,
+        220
+      ],
+      "id": "b08a0a77-1d42-44be-b571-91a2ecf2feed",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "Replace Me",
+      "typeVersion": 1,
+      "position": [
+        920,
+        240
+      ],
+      "id": "f99f1f9f-d50c-43a7-b9b2-c7526ca28fe4"
+    },
+    {
+      "parameters": {
+        "jsCode": "function chunkTextWithOverlap(text, chunkSize, overlapSize) {\n  const words = text.split(/\\s+/);\n  const chunks = [];\n  let id = 1;\n  for (let i = 0; i < words.length; i += (chunkSize - overlapSize)) {\n    const chunk = words.slice(i, i + chunkSize).join(\" \");\n    chunks.push({ json: { id, chunk } });\n    id++;\n  }\n  \n  return chunks;\n  \n}\n\n\nconst text = \"Este é um texto de exemplo que será dividido em várias partes com sobreposição.\";\nconst chunkSize = 500; \nconst overlapSize = 50; \nconsole.log(chunkTextWithOverlap(text, chunkSize, overlapSize));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -320,
+        220
+      ],
+      "id": "77395d38-25d7-4878-a3e7-7c4583e9a3b5",
+      "name": "Code1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -300,
+        -340
+      ],
+      "id": "170b5a10-08ac-403b-9c08-f486f163c449",
+      "name": "When chat message received1",
+      "webhookId": "b822616a-72e9-4689-802c-8e0dd8562811"
+    },
+    {
+      "parameters": {
+        "model": "llama-3.2-90b-text-preview",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        80,
+        440
+      ],
+      "id": "482118c9-51e6-4de3-b7df-640a855bfbfa",
+      "name": "Groq Chat Model2",
+      "credentials": {
+        "groqApi": {
+          "id": "wujIl27yzdv1Sk3E",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "formTitle": "Split Text",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Envie o Documento",
+              "placeholder": "Aqui",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {
+          "appendAttribution": false,
+          "respondWithOptions": {
+            "values": {
+              "formSubmittedText": "Fluxo em Execução"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -500,
+        220
+      ],
+      "id": "1f0265e0-c602-41f8-ad62-e744d1c67b08",
+      "name": "On form submission",
+      "webhookId": "fe1cc396-19bf-40e4-90ce-d2a11b03be26"
+    },
+    {
+      "parameters": {
+        "agent": "conversationalAgent",
+        "promptType": "define",
+        "text": "={{ JSON.stringify($json.chunk) }}",
+        "options": {
+          "systemMessage": "Objetivo: Gerar uma ou mais tags que representem o conteúdo do texto fornecido, buscando manter o número de tags o mais reduzido possível.\n\nInstruções:\n\nLeia o texto completo com atenção e identifique as principais ideias ou temas abordados. As tags devem captar o conteúdo de forma abrangente, representando os conceitos centrais.\nMinimize o número de tags: Concentre-se em gerar apenas as tags essenciais, evitando detalhamentos excessivos. Foque nos conceitos mais amplos e significativos.\nFormato das tags: Cada tag deve ser curta, preferencialmente composta por uma ou duas palavras, e precisa refletir a essência dos temas abordados. Utilize no máximo três palavras, se necessário.\nExemplo de tags para temas filosóficos (somente como referência):\nSe o texto explorar questões sobre a natureza da realidade e da percepção, as tags poderiam ser \"Metafísica\" ou \"Epistemologia\".\nSe o conteúdo abordar a ética e o comportamento humano, as tags poderiam ser \"Ética\" ou \"Moralidade\".\nImportante: Gere o mínimo necessário de tags que capturem o sentido principal e geral do texto, mantendo-as precisas e diretas."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        60,
+        240
+      ],
+      "id": "dab2aabf-f11d-4679-b9f8-b8a1a2cdb28f",
+      "name": "Gerador de Tags"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.chatInput }}",
+        "options": {
+          "systemMessage": "< identidade > \nVocê é um clone de Platão, o ilustre filósofo grego e fundador da Academia de Atenas. Com profunda influência do seu mestre Sócrates, você dedica sua vida à busca da verdade através da dialética e à compreensão das Formas ideais. Você é conhecido por seu método dialógico, pensamento sistemático e pela capacidade de explorar questões fundamentais sobre justiça, conhecimento, realidade e a natureza da alma humana. Sua expertise abrange filosofia, política, ética, epistemologia e metafísica.\n</ identidade >\n\n< função > \nSua missão é guiar os interlocutores em direção à verdade e ao conhecimento verdadeiro através do diálogo socrático e da reflexão filosófica profunda. Você é responsável por:\nConduzir diálogos filosóficos que levem à descoberta da verdade através de questionamentos sucessivos.\nExplorar conceitos fundamentais como justiça, virtude, conhecimento e realidade.\nAuxiliar os interlocutores a transcender o mundo das aparências para alcançar o conhecimento das Formas.\nExaminar criticamente argumentos e pressupostos através da dialética.\nDesenvolver analogias e alegorias para ilustrar conceitos filosóficos complexos.\n</ função >\n\n< objetivo >\nSeu objetivo é elevar o nível de compreensão filosófica e despertar o conhecimento inato. Em cada interação, você deve:\nEstimular o pensamento crítico através de perguntas precisas e metodicamente estruturadas.\nConduzir o interlocutor à descoberta de contradições em seu próprio pensamento.\nDesenvolver argumentos que progridam do particular para o universal.\nCultivar a busca pela sabedoria e virtude através do autoexame.\nMedir seu sucesso pela profundidade da compreensão alcançada e pela transformação do pensamento.\n</ objetivo >\n\n< estilo >\nSeu estilo de comunicação deve ser:\nDialógico e maiêutico, fazendo perguntas que levem à reflexão profunda.\nPaciente e metódico, permitindo que o interlocutor chegue às suas próprias conclusões.\nAdaptável, alternando entre argumentação lógica e uso de alegorias/mitos quando apropriado.\n\nUtilize:\nAnalogias e alegorias memoráveis (como a Alegoria da Caverna).\nQuestionamento sistemático para expor contradições e alcançar definições mais precisas.\nExemplos concretos que progridam para abstrações filosóficas.\nMitos e narrativas para ilustrar verdades filosóficas complexas.\n</ estilo >\n\n< instruções > \nComo um mestre do diálogo filosófico, você deve sempre:\nManter a serenidade e paciência características do método socrático.\nEstruturar o diálogo de forma a progredir naturalmente das opiniões às verdades universais.\nEstimular o autoexame e a busca pelo conhecimento verdadeiro.\nDemonstrar respeito pelo processo de descoberta, mesmo quando apontando contradições.\nAdaptar o nível de complexidade filosófica à capacidade do interlocutor.\n</ instruções >\n\n< blacklist >\nNunca forneça respostas diretas sem o devido processo dialético. Não ridicularize ou diminua as opiniões iniciais dos interlocutores. Não simplifique excessivamente conceitos filosóficos complexos. Nunca imponha conclusões sem permitir que o interlocutor as alcance por si mesmo. Não desvie do objetivo de buscar a verdade e o conhecimento.\n</ blacklist >\n\n< regras personalizadas >\nSempre inicie com questões aparentemente simples que levem a reflexões mais profundas. Use a teoria das Formas para elevar discussões do particular ao universal. Incorpore elementos da tradição socrática, como a ironia e a maiêutica. Relacione questões filosóficas com a busca pela justiça e pelo bem comum. Mantenha o foco na transformação do entendimento através do diálogo.\n</ regras personalizadas >"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        -120,
+        -340
+      ],
+      "id": "961645e2-11c1-4f7f-856f-8bf2d08e1997",
+      "name": "Platão"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-1.5-pro-latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        180,
+        0
+      ],
+      "id": "4ae43640-d6c0-4d52-8ebb-cc8e2bbff456",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "WpHnSTAMyFJlrZzt",
+          "name": "API Gemini"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Supabase Vector Store1",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings HuggingFace Inference": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Supabase Vector Store1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "POST Vector Store": {
+      "main": [
+        [
+          {
+            "node": "Supabase Vector Store1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Token Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Platão",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Vector Store Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "Platão",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase Vector Store": {
+      "ai_vectorStore": [
+        [
+          {
+            "node": "Vector Store Tool",
+            "type": "ai_vectorStore",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings HuggingFace Inference1": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Supabase Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Gerador de Tags",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase Vector Store1": {
+      "main": [
+        [
+          {
+            "node": "Replace Me",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received1": {
+      "main": [
+        [
+          {
+            "node": "Platão",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Gerador de Tags",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gerador de Tags": {
+      "main": [
+        [
+          {
+            "node": "POST Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Vector Store Tool",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "5b8436bd-dc40-4c1f-b116-354655d6ea83",
+  "meta": {
+    "instanceId": "ab7794a9f7a89a320266f1efef6838c2e0bf0f8f7a0d32f2ed70fdaa6aef27ee"
+  },
+  "id": "B9GALYrXdLmocttx",
+  "tags": []
+}
